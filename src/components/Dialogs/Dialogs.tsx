@@ -2,11 +2,12 @@ import React from 'react';
 import style from './Dialogs.module.css'
 import {Messages} from "./Message/Messages";
 import {DialogItem} from "./DialogItem/DialogItem";
-import {DialogsItemPropsType, MessagePropsType} from "../../index";
+import {DialogsItemPropsType, MessagesPropsType} from "../../redux/state";
+
 
 type DialogsPropsType = {
     dialogs:DialogsItemPropsType[]
-    messages: MessagePropsType[]
+    messages: MessagesPropsType[]
 }
 
 

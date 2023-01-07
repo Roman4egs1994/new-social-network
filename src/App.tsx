@@ -8,15 +8,13 @@ import {Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {DialogsItemPropsType, MessagePropsType, PostsType} from "./index";
+import {StateType} from "./redux/state";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
 
 type AppTypeProps = {
-    posts: PostsType[]
-    dialogs: DialogsItemPropsType[]
-    messages: MessagePropsType[]
+    state: StateType
 }
 
 
@@ -37,8 +35,14 @@ function App(props: AppTypeProps) {
                     {/*<Route path={'/settings'} component={Settings}/>*/}
 
 
-                    <Route path={"/profile"} render={() => <Profile posts={props.posts}/>}/>
-                    <Route path={"/dialogs"} render={() => <Dialogs dialogs = {props.dialogs} messages = {props.messages}/>}/>
+                    <Route path={"/profile"} render={() => <Profile
+                        posts={props.state.profilePage.posts}
+                    />}/>
+                    <Route path={"/dialogs"} render={() => <Dialogs
+                        dialogs = {props.state.messagesPage.dialogs}
+                        messages = {props.state.messagesPage.messages}
+                    />}/>
+
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/music'} render={() => <Music/>}/>
                     <Route path={'/settings'} render={() => <Settings/>}/>
