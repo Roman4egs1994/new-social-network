@@ -36,11 +36,10 @@ function App(props: AppTypeProps) {
 
 
                     <Route path={"/profile"} render={() => <Profile
-                        posts={props.state.profilePage.posts}
+                        state={props.state.profilePage}
                     />}/>
                     <Route path={"/dialogs"} render={() => <Dialogs
-                        dialogs = {props.state.messagesPage.dialogs}
-                        messages = {props.state.messagesPage.messages}
+                        state = {props.state.messagesPage}
                     />}/>
 
                     <Route path={'/news'} render={() => <News/>}/>
