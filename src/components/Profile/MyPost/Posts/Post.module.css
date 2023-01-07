@@ -1,0 +1,14 @@
+/*.content {*/
+/*    grid-area: c;*/
+/*    background: chocolate;*/
+/*}*/
+
+.item {
+    margin-left: 10px;
+}
+
+.avatar img {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}

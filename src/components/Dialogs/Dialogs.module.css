@@ -1,0 +1,8 @@
+.dialogs {
+    display:  flex;
+    padding: 10px;
+}
+
+.dialogsItem {
+    margin-right: 30px;
+}
