@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
-import {addNewPost, state, StateType, subscribe, updateAddNewPost} from "./redux/state";
+import {store} from "./redux/state";
 
 
 
@@ -14,9 +14,11 @@ let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
             <App
-                state= {state}
-                addNewPost = {addNewPost}
-                updateAddNewPost = {updateAddNewPost}
+                state= {store.getState()}
+                addNewPost = {store.addNewPost.bind(store)}
+                updateAddNewPost = {store.updateAddNewPost.bind(store)}
+                store={store}
+                // store={store.getState()}
             />
         </BrowserRouter>,
         document.getElementById('root')
@@ -28,5 +30,4 @@ let rerenderEntireTree = () => {
 
 //
 rerenderEntireTree()
-
-subscribe(rerenderEntireTree);
+store.subscribe(rerenderEntireTree);

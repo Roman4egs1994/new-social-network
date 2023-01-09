@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import style from './MyPosts.module.css'
 import {Post} from "./Posts/Post";
 import {PostsType} from "../../../redux/state";
