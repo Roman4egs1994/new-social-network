@@ -8,13 +8,15 @@ import {Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StateType} from "./redux/state";
+import {addNewPost, StateType, updateAddNewPost} from "./redux/state";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
 
 type AppTypeProps = {
     state: StateType
+    addNewPost: () => void
+    updateAddNewPost:(newText:string) => void
 }
 
 
@@ -35,12 +37,18 @@ function App(props: AppTypeProps) {
                     {/*<Route path={'/settings'} component={Settings}/>*/}
 
 
-                    <Route path={"/profile"} render={() => <Profile
-                        state={props.state.profilePage}
-                    />}/>
-                    <Route path={"/dialogs"} render={() => <Dialogs
-                        state = {props.state.messagesPage}
-                    />}/>
+                    <Route path={"/profile"} render={() =>
+                        <Profile
+                            profilePage={props.state.profilePage}
+                            addNewPost={props.addNewPost}
+                            updateAddNewPost = {props.updateAddNewPost}
+                        />}
+                    />
+                    <Route path={"/dialogs"} render={() =>
+                        <Dialogs
+                            state={props.state.messagesPage}
+                        />}
+                    />
 
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/music'} render={() => <Music/>}/>

@@ -20,8 +20,8 @@ export const Dialogs = (props: DialogStateType) => {
 
 
 
-    const dialogsElements = props.state.dialogs.map(el => <DialogItem id={el.id} name={el.name}/>) //Пользователи
-    const messagesElements = props.state.messages.map(el => <Messages messages={el.message}/>) //Сообщения
+    const dialogsElements = props.state.dialogs.map(el => <DialogItem key={el.id} id={el.id} name={el.name}/>) //Пользователи
+    const messagesElements = props.state.messages.map(el => <Messages key={el.id} messages={el.message}/>) //Сообщения
 
     return (
         <div className={style.dialogs}>

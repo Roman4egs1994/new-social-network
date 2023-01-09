@@ -1,11 +1,14 @@
+
+import {rerenderEntireTree} from "../render";
+
+
+
 //POSTS
-
-
-
 //////////////////////////////////////////
 //Общий стейт для PROFILE
 export type ProfilePageType = {
     posts: PostsType []
+    newPostText:string
 }
 
 //Cтейт для Posts
@@ -57,7 +60,7 @@ export const state: StateType = {
             {id:3, message: "ahahah", likesCount: 3},
             {id:4, message: "WTF", likesCount: 3},
         ],
-
+        newPostText: 'IT-Kamasutra.com',
     },
    messagesPage: {
        dialogs: [
@@ -81,8 +84,19 @@ export const state: StateType = {
 ////////////////////////////////////////////////////
 
 
+export const addNewPost = () => {
+    const newPost:PostsType = {id:5, message: state.profilePage.newPostText, likesCount:0}
+    state.profilePage.posts.push(newPost);
+
+    rerenderEntireTree(state);
+}
 
 
+export const updateAddNewPost = (newText: string) => {
+
+    state.profilePage.newPostText = newText;
+    rerenderEntireTree(state)
+}
 
 
 
