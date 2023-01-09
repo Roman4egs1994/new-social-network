@@ -1,7 +1,8 @@
 
-import {rerenderEntireTree} from "../render";
 
-
+let  rerenderEntireTree = () =>  {
+    console.log('state is changed')
+}
 
 //POSTS
 //////////////////////////////////////////
@@ -88,15 +89,40 @@ export const addNewPost = () => {
     const newPost:PostsType = {id:5, message: state.profilePage.newPostText, likesCount:0}
     state.profilePage.posts.push(newPost);
 
-    rerenderEntireTree(state);
+    rerenderEntireTree();
 }
 
 
 export const updateAddNewPost = (newText: string) => {
 
     state.profilePage.newPostText = newText;
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
+
+
+
+export const subscribe = (callback: ()=>void) => {
+    rerenderEntireTree = callback // Паттерн наблюдатель
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
