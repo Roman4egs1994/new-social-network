@@ -58,7 +58,9 @@ function App(props: AppTypeProps) {
                     <Route path={"/dialogs"} render={() =>
                         <Dialogs
                             // state={props.state.messagesPage}
-                            state={props.store._state.messagesPage}
+                            dialogPage={props.store._state.dialogPage}
+                            dispatch = {props.dispatch.bind(props.store)}
+
                         />}
                     />
 
