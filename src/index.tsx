@@ -13,10 +13,16 @@ import {store} from "./redux/state";
 let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
+            {/*<App*/}
+            {/*    state= {store.getState()}*/}
+            {/*    addNewPost = {store.addNewPost.bind(store)}*/}
+            {/*    updateAddNewPost = {store.updateAddNewPost.bind(store)}*/}
+            {/*    store={store}*/}
+            {/*    // store={store.getState()}*/}
+            {/*/>*/}
             <App
                 state= {store.getState()}
-                addNewPost = {store.addNewPost.bind(store)}
-                updateAddNewPost = {store.updateAddNewPost.bind(store)}
+                dispatch = {store.dispatch.bind(store)}
                 store={store}
                 // store={store.getState()}
             />

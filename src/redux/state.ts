@@ -45,17 +45,31 @@ export type DialogsItemPropsType = {
 export type StateType = {
     profilePage: ProfilePageType
     messagesPage: DialogsType
+
 }
 
 
 //Типизация STORE
 export type StoreType = {
     _state: StateType
-    _callSubscriber: ()=>void
-    getState: ()=> StateType
-    addNewPost: () => void
-    updateAddNewPost:(newText: string)=> void
-    subscribe : (callback: ()=> void) => void
+    _callSubscriber: () => void
+    getState: () => StateType
+    // addNewPost: () => void
+    // changeNewText: (newText: string) => void
+    subscribe: (callback: () => void) => void
+    dispatch: (action: ActionTypes) => void
+}
+
+
+export type ActionTypes = changeNewTextType | addNewPostType
+
+//Типизация для каждого action
+type changeNewTextType = {
+    type: 'CHANGE-NEW-POST-TEXT',
+    newText: string
+}
+type addNewPostType = {
+    type: 'ADD-POST',
 }
 
 
@@ -95,24 +109,38 @@ export let store: StoreType = {
     getState() {
         return this._state
     },
-    addNewPost() {
-        debugger
-        // const newPost: PostsType = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
-        const newPost = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
-        this._state.profilePage.posts.push(newPost);
-
-        this._callSubscriber();
-    },
-    updateAddNewPost(newText) {
-
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber()
-    },
     subscribe(callback) {
         this._callSubscriber = callback // Паттерн наблюдатель
     },
+    dispatch(action) {  //action - {type: "ADD-POST"}
 
+        switch (action.type) {
+            case "ADD-POST": {
+                const newPost = {id: new Date().getTime(), message: this._state.profilePage.newPostText, likesCount: 0}
+                this._state.profilePage.posts.push(newPost);
+                this._state.profilePage.newPostText = '';
+                this._callSubscriber();
+                break;
+            }
+            case "CHANGE-NEW-POST-TEXT": {
+                this._state.profilePage.newPostText = action.newText;
+                this._callSubscriber()
+                break;
+            }
+        }
+
+        // if (action.type === 'ADD-POST') {
+        //     const newPost = {id: new Date().getTime(), message: this._state.profilePage.newPostText, likesCount: 0}
+        //     this._state.profilePage.posts.push(newPost);
+        //     this._state.profilePage.newPostText = '';
+        //     this._callSubscriber();
+        // } else if (action.type === 'CHANGE-NEW-POST-TEXT') {
+        //     this._state.profilePage.newPostText = action.newText;
+        //     this._callSubscriber()
+        // }
+    }
 }
+
 
 // window.store = store;
 
