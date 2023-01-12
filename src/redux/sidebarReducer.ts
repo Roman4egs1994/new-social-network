@@ -1,5 +1,8 @@
-import {ProfilePageType} from "./state";
-import any = jasmine.any;
+import {ProfilePageType} from "./store";
+
+const initialState = {}
+
+
 
 export const sidebarReducer = (state:any, action:ActionSidebarType) => {
     switch (action.type) {

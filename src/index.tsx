@@ -4,17 +4,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
-import {store} from "./redux/state";
-
-
-
+// import {store} from "./redux/store";
+import {store} from "./redux/reduxStore";
 
 
 let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
             {/*<App*/}
-            {/*    state= {store.getState()}*/}
+            {/*    store= {store.getState()}*/}
             {/*    addNewPost = {store.addNewPost.bind(store)}*/}
             {/*    updateAddNewPost = {store.updateAddNewPost.bind(store)}*/}
             {/*    store={store}*/}
@@ -23,7 +21,7 @@ let rerenderEntireTree = () => {
             <App
                 state= {store.getState()}
                 dispatch = {store.dispatch.bind(store)}
-                store={store}
+                // store={store}
                 // store={store.getState()}
             />
         </BrowserRouter>,
@@ -32,4 +30,8 @@ let rerenderEntireTree = () => {
 }
 
 rerenderEntireTree()
-store.subscribe(rerenderEntireTree);
+// store.subscribe(rerenderEntireTree);
+store.subscribe(()=> {
+    // let state = store.getState()
+    rerenderEntireTree()
+});

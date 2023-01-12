@@ -8,20 +8,21 @@ import {Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StateType, store, StoreType, ActionTypes} from "./redux/state";
+import {StateType, store, StoreType, ActionTypes} from "./redux/store";
+import {AppStateType} from "./redux/reduxStore";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
 
 // type AppTypeProps = {
-//     state: StateType
+//     store: StateType
 //     store: StoreType
 //     addNewPost: () => void
 //     updateAddNewPost:(newText:string) => void
 // }
 type AppTypeProps = {
-    state: StateType
-    store: StoreType
+    state: AppStateType
+    // store: StoreType
     dispatch: (action: ActionTypes) => void
 }
 
@@ -31,7 +32,7 @@ type AppTypeProps = {
 
 function App(props: AppTypeProps) {
 
-    // const state = props.store.getState();
+    // const store = props.store.getState();
 
     return (
         <div className="App">
@@ -49,16 +50,18 @@ function App(props: AppTypeProps) {
 
                     <Route path={"/profile"} render={() =>
                         <Profile
-                            profilePage={props.store._state.profilePage}
-                            dispatch = {props.store.dispatch.bind(props.store)}
+                            // profilePage={props.store._state.profilePage}
+                            profilePage={props.state.profileReducer}
+                            // dispatch = {props.store.dispatch.bind(props.store)}
+                            dispatch = {props.dispatch}
                             // addNewPost={props.store.addNewPost.bind(props.store)}
                             // updateAddNewPost = {props.store.changeNewText.bind(props.store)}
                         />}
                     />
                     <Route path={"/dialogs"} render={() =>
                         <Dialogs
-                            dialogPage={props.store._state.dialogPage}
-                            dispatch = {props.dispatch.bind(props.store)}
+                            dialogPage={props.state.dialogsReducer}
+                            dispatch = {props.dispatch}
                         />}
                     />
 

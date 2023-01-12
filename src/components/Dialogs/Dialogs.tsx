@@ -7,8 +7,8 @@ import {DialogItem} from "./DialogItem/DialogItem";
 //     DialogsItemPropsType,
 //     MessagesPropsType,
 //     onMessagesChangeTextAC, onMessagesSendMessageAC
-// } from "../../redux/state";
-import {ActionTypes, DialogsItemPropsType, MessagesPropsType,} from "../../redux/state";
+// } from "../../redux/store";
+import {ActionTypes, DialogsItemPropsType, MessagesPropsType,} from "../../redux/store";
 import {Button} from "../Button/Button";
 import {onMessagesChangeTextAC, onMessagesSendMessageAC} from "../../redux/dialogsReducer";
 

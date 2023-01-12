@@ -92,7 +92,7 @@ export let store: StoreType = {
         }
     },
     _callSubscriber() {
-        console.log('state is changed')
+        console.log('store is changed')
     },
     getState() {
         return this._state
