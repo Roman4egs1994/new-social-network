@@ -1,8 +1,9 @@
 import React, {ChangeEvent} from 'react';
 import style from './MyPosts.module.css'
 import {Post} from "./Posts/Post";
-import {ActionTypes, addPostActionCreator, onPostChangeActionCreator, PostsType} from "../../../redux/state";
+import {ActionTypes, PostsType} from "../../../redux/state";
 import {Button} from "../../Button/Button";
+import {addPostAC, onPostChangeAC} from "../../../redux/profileReducer";
 
 
 
@@ -26,14 +27,14 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
     const onClickBtnAddPostHandler = () => {
         // props.dispatch({type: "ADD-POST"})
-        props.dispatch(addPostActionCreator())
+        props.dispatch(addPostAC())
     }
 
     const onPostChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const text = event.currentTarget.value
 
         // props.dispatch({type: "CHANGE-NEW-POST-TEXT", newText: text})
-        props.dispatch(onPostChangeActionCreator(text))
+        props.dispatch(onPostChangeAC(text))
     }
 
 

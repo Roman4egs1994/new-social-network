@@ -1,14 +1,15 @@
-// let  rerenderEntireTree = () =>  {
-//     console.log('state is changed')
-// }
-
 //POSTS
+import {ActionProfileType, profileReducer} from "./profileReducer";
+import {ActionDialogType, dialogsReducer} from "./dialogsReducer";
+
+
 //////////////////////////////////////////
 //Общий стейт для PROFILE
 export type ProfilePageType = {
     posts: PostsType []
     newPostText: string
 }
+
 
 //Cтейт для Posts
 export type PostsType = {
@@ -46,69 +47,18 @@ export type DialogsItemPropsType = {
 export type StateType = {
     profilePage: ProfilePageType
     dialogPage: DialogsType
-
 }
-
 
 //Типизация STORE
 export type StoreType = {
     _state: StateType
     _callSubscriber: () => void
     getState: () => StateType
-    // addNewPost: () => void
-    // changeNewText: (newText: string) => void
     subscribe: (callback: () => void) => void
     dispatch: (action: ActionTypes) => void
 }
 
-
-export type ActionTypes = ChangeNewTextType | AddNewPostType | ChangeNewMessageText | SendMessageDialogType
-
-//Типизация для каждого action
-type ChangeNewTextType = {
-    type: 'CHANGE-NEW-POST-TEXT',
-    newText: string
-}
-type AddNewPostType = {
-    type: 'ADD-POST',
-}
-
-type ChangeNewMessageText = {
-    type: "CHANGE-NEW-MESSAGE-TEXT"
-    changeMessageText: string
-}
-
-type SendMessageDialogType = {
-    type: "SEND-MESSAGE-DIALOG"
-}
-
-//ACTIONS CREATOR
-export const addPostActionCreator = (): AddNewPostType => {
-    return {
-        type: "ADD-POST"
-    }
-}
-
-export const onPostChangeActionCreator = (newText: string): ChangeNewTextType => {
-    return {
-        type: "CHANGE-NEW-POST-TEXT",
-        newText: newText
-    }
-}
-
-export const onMessagesChangeTextActionCreator = (changeMessageText: string): ChangeNewMessageText => {
-    return {
-        type: "CHANGE-NEW-MESSAGE-TEXT",
-        changeMessageText: changeMessageText
-    }
-}
-
-export const onMessagesSendMessageAC = (): SendMessageDialogType => {
-    return  {
-        type: "SEND-MESSAGE-DIALOG"
-    }
-}
-
+export type ActionTypes = ActionProfileType | ActionDialogType
 
 export let store: StoreType = {
     _state: {
@@ -152,41 +102,11 @@ export let store: StoreType = {
     },
     dispatch(action) {  //action - {type: "ADD-POST"}
 
-        switch (action.type) {
-            case "ADD-POST": {
-                const newPost = {id: new Date().getTime(), message: this._state.profilePage.newPostText, likesCount: 0}
-                this._state.profilePage.posts.push(newPost);
-                this._state.profilePage.newPostText = '';
-                this._callSubscriber();
-                break;
-            }
-            case "CHANGE-NEW-POST-TEXT": {
-                this._state.profilePage.newPostText = action.newText;
-                this._callSubscriber()
-                break;
-            }
-            case "CHANGE-NEW-MESSAGE-TEXT" : {
-                this._state.dialogPage.newMessageText = action.changeMessageText
-                this._callSubscriber()
-                break;
-            }
-            case "SEND-MESSAGE-DIALOG" : {
-                const newMessages = {id: new Date().getTime(), message: this._state.dialogPage.newMessageText}
-                this._state.dialogPage.messages.push(newMessages)
-                this._state.dialogPage.newMessageText = ''
-                this._callSubscriber()
-                break;
-            }
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogPage = dialogsReducer(this._state.dialogPage, action)
+        // this._state.profilePage = profileReducer(this._state.profilePage,action)
 
-        // if (action.type === 'ADD-POST') {
-        //     const newPost = {id: new Date().getTime(), message: this._state.profilePage.newPostText, likesCount: 0}
-        //     this._state.profilePage.posts.push(newPost);
-        //     this._state.profilePage.newPostText = '';
-        //     this._callSubscriber();
-        // } else if (action.type === 'CHANGE-NEW-POST-TEXT') {
-        //     this._state.profilePage.newPostText = action.newText;
-        //     this._callSubscriber()
-        // }
+        this._callSubscriber()
     }
 }
+
