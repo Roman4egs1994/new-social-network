@@ -2,12 +2,18 @@ import React from 'react';
 // import style from './Profile.module.css'
 import {MyPosts} from "./MyPost/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {PostsType, ActionTypes} from "../../redux/store";
+import {DispatchType} from "../../App";
+import {addPostAC, onPostChangeAC, PostsType} from "../../redux/profileReducer";
+import {MyPostsContainer} from "./MyPost/MyPostsContainer";
+import {AppStoreType, store} from "../../redux/reduxStore";
+
+
 
 
 type ProfileType = {
-    profilePage: ProfilePropsType
-    dispatch: (action: ActionTypes) => void
+    // store: AppStoreType
+    profilePageStore: ProfilePropsType
+    dispatch: (action: DispatchType) => void
 }
 
 type ProfilePropsType = {
@@ -17,15 +23,16 @@ type ProfilePropsType = {
 
 
 export const Profile = (props: ProfileType) => {
-
+debugger
     return (
         <>
             <div>
                 <ProfileInfo/>
-                <MyPosts
-                    posts={props.profilePage.posts}
-                    newPostText={props.profilePage.newPostText}
+                <MyPostsContainer
+                    posts={props.profilePageStore.posts}
+                    newPostText={props.profilePageStore.newPostText}
                     dispatch={props.dispatch}
+                    // store = {props.store}
                 />
             </div>
         </>

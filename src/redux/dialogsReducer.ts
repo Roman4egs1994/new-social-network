@@ -1,5 +1,23 @@
-import {ActionTypes, DialogsType} from "./store";
+// import {ActionTypes} from "./store";
 
+//Общий стейт для Dialogs
+export type DialogsType = {
+    messages: MessagesPropsType[]
+    dialogs: DialogsItemPropsType[]
+    newMessageText: string
+}
+
+//Стейт для Messages
+export type MessagesPropsType = {
+    id?: number
+    message: string
+}
+
+//Стейт для Dialogs(туда входят имена пользователей)
+export type DialogsItemPropsType = {
+    id: number
+    name: string
+}
 
 
 export const initialState: DialogsType = {
@@ -24,7 +42,7 @@ export const initialState: DialogsType = {
 
 
 
-export const dialogsReducer = (state= initialState, action: ActionTypes):DialogsType => {
+export const dialogsReducer = (state= initialState, action: ActionDialogType):DialogsType => {
     switch (action.type) {
         case "CHANGE-NEW-MESSAGE-TEXT" : {
             state.newMessageText = action.changeMessageText

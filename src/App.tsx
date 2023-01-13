@@ -8,27 +8,25 @@ import {Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {StateType, store, StoreType, ActionTypes} from "./redux/store";
-import {AppStateType} from "./redux/reduxStore";
+// import { ActionTypes} from "./redux/store";
+import {AppStoreType} from "./redux/reduxStore";
+import {ActionTypes} from "redux-form";
+import {ActionDialogType} from "./redux/dialogsReducer";
+import {ActionProfileType} from "./redux/profileReducer";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
 
-// type AppTypeProps = {
-//     store: StateType
-//     store: StoreType
-//     addNewPost: () => void
-//     updateAddNewPost:(newText:string) => void
-// }
 type AppTypeProps = {
-    state: AppStateType
+    store: AppStoreType
     // store: StoreType
-    dispatch: (action: ActionTypes) => void
+    // dispatch: (action: ActionTypes) => void
+    dispatch: (action: DispatchType) => void
 }
 
 
-
-
+export type DispatchType = ActionDialogType | ActionProfileType
 
 function App(props: AppTypeProps) {
 
@@ -41,28 +39,23 @@ function App(props: AppTypeProps) {
                 <Navbar/>
 
                 <div className={'app-wrapper-content'}>
-                    {/*<Route path={"/profile"} component={Profile}/>*/}
-                    {/*<Route path={"/dialogs"} component={Dialogs}/>*/}
-                    {/*<Route path={'/news'} component={News}/>*/}
-                    {/*<Route path={'/music'} component={Music}/>*/}
-                    {/*<Route path={'/settings'} component={Settings}/>*/}
-
-
                     <Route path={"/profile"} render={() =>
                         <Profile
-                            // profilePage={props.store._state.profilePage}
-                            profilePage={props.state.profileReducer}
-                            // dispatch = {props.store.dispatch.bind(props.store)}
-                            dispatch = {props.dispatch}
-                            // addNewPost={props.store.addNewPost.bind(props.store)}
-                            // updateAddNewPost = {props.store.changeNewText.bind(props.store)}
+                            profilePageStore={props.store.profileReducer}
+                            dispatch={props.dispatch}
+                            // store={props.store}
                         />}
                     />
                     <Route path={"/dialogs"} render={() =>
-                        <Dialogs
-                            dialogPage={props.state.dialogsReducer}
-                            dispatch = {props.dispatch}
-                        />}
+                        // <Dialogs
+                        //     dialogPage={props.store.dialogsReducer}
+                        //     dispatch={props.dispatch}
+                        // />
+                        <DialogsContainer
+                            dialogPage={props.store.dialogsReducer}
+                            dispatch={props.dispatch}
+                        />
+                    }
                     />
 
                     <Route path={'/news'} render={() => <News/>}/>

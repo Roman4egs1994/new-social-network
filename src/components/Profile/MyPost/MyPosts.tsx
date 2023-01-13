@@ -1,16 +1,22 @@
 import React, {ChangeEvent} from 'react';
 import style from './MyPosts.module.css'
 import {Post} from "./Posts/Post";
-import {ActionTypes, PostsType} from "../../../redux/store";
 import {Button} from "../../Button/Button";
-import {addPostAC, onPostChangeAC} from "../../../redux/profileReducer";
+import {addPostAC, PostsType} from "../../../redux/profileReducer";
+import {DispatchType} from "../../../App";
+import {AppStoreType} from "../../../redux/reduxStore";
+
 
 
 
 export type MyPostsPropsType = {
     posts: PostsType[]
     newPostText: string
-    dispatch: (action: ActionTypes) => void
+    // dispatch: (action: DispatchType) => void
+
+
+    addPostAC:()=> void
+    onPostChangeAC: (newText: string)=> void
 }
 
 
@@ -25,16 +31,17 @@ export const MyPosts = (props: MyPostsPropsType) => {
     const newPostHandler = React.createRef<HTMLTextAreaElement>()
 
 
-    const onClickBtnAddPostHandler = () => {
-        // props.dispatch({type: "ADD-POST"})
-        props.dispatch(addPostAC())
+    const onAddPost = () => {
+        // props.dispatch(addPostAC())
+        props.addPostAC();
     }
 
     const onPostChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const text = event.currentTarget.value
 
-        // props.dispatch({type: "CHANGE-NEW-POST-TEXT", newText: text})
-        props.dispatch(onPostChangeAC(text))
+        props.onPostChangeAC(text)
+        // props.dispatch(onPostChangeAC(text))
+
     }
 
 
@@ -46,8 +53,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
                     <div>
                         <textarea onChange={onPostChange} ref={newPostHandler} value={props.newPostText}/>
                     </div>
-                    {/*<button onClick={onClickBtnAddPostHandler}>Add post</button>*/}
-                    <Button name={'Add post'} callBack={onClickBtnAddPostHandler} />
+                    <Button name={'Add post'} callBack={onAddPost} />
                 </div>
                 <div className={style.posts}>
                     {myPosts}

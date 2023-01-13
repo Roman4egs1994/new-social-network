@@ -2,21 +2,16 @@ import React, {ChangeEvent} from 'react';
 import style from './Dialogs.module.css'
 import {Messages} from "./Message/Messages";
 import {DialogItem} from "./DialogItem/DialogItem";
-// import {
-//     ActionTypes,
-//     DialogsItemPropsType,
-//     MessagesPropsType,
-//     onMessagesChangeTextAC, onMessagesSendMessageAC
-// } from "../../redux/store";
-import {ActionTypes, DialogsItemPropsType, MessagesPropsType,} from "../../redux/store";
 import {Button} from "../Button/Button";
-import {onMessagesChangeTextAC, onMessagesSendMessageAC} from "../../redux/dialogsReducer";
+import {DialogsItemPropsType, MessagesPropsType,} from "../../redux/dialogsReducer";
+import {DispatchType} from "../../App";
 
 
 type DialogStateType = {
     dialogPage: DialogsPropsType
-    dispatch: (Action: ActionTypes) => void
-    // newMessageText: string
+    dispatch: (Action: DispatchType) => void
+    onDialogChangeAC:(changeMessageText: string) => void
+    sendMessage:() => void
 }
 
 type DialogsPropsType = {
@@ -37,12 +32,13 @@ export const Dialogs = (props: DialogStateType) => {
 
     const onchangeMessageTextHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const text = event.currentTarget.value
-        props.dispatch(onMessagesChangeTextAC(text))
+       props.onDialogChangeAC(text)
+        // props.dispatch(onMessagesChangeTextAC(text))
     }
 
     const addNewMessagesHandler = () => {
-        // props.dispatch({type: "SEND-MESSAGE-DIALOG"})
-        props.dispatch(onMessagesSendMessageAC())
+
+        props.sendMessage()
     }
 
     return (
