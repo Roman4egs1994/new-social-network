@@ -6,7 +6,9 @@ import {DispatchType} from "../../App";
 import {addPostAC, onPostChangeAC, PostsType} from "../../redux/profileReducer";
 
 import {AppStateType, store} from "../../redux/reduxStore";
-import {SuperMyPostContainer} from "./MyPost/SuperMyPostContainer";
+import {MyPostContainer} from "./MyPost/MyPostContainer";
+
+
 
 
 
@@ -35,7 +37,7 @@ debugger
                 {/*    dispatch={props.dispatch}*/}
                 {/*    // store = {props.store}*/}
                 {/*/>*/}
-                <SuperMyPostContainer
+                <MyPostContainer
                     posts={props.profilePageStore.posts}
                     onPostChangeAC={onPostChangeAC}
                     newPostText={props.profilePageStore.newPostText}

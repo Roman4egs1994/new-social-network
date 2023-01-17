@@ -10,9 +10,10 @@ import {Settings} from "./components/Settings/Settings";
 import {AppStateType} from "./redux/reduxStore";
 import {ActionDialogType, onMessagesChangeTextAC, onMessagesSendMessageAC} from "./redux/dialogsReducer";
 import {ActionProfileType} from "./redux/profileReducer";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {SuperDialogContainer} from "./components/Dialogs/SuperDialogItems";
-import {SuperPuperDialogContainer} from "./components/Dialogs/SuperPuperDialogContainer";
+
+
+import {DialogContainer} from "./components/Dialogs/DialogContainer";
+import {MyPostContainer} from "./components/Profile/MyPost/MyPostContainer";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
@@ -44,15 +45,11 @@ function App(props: AppTypeProps) {
                         />}
                     />
                     <Route path={"/dialogs"} render={() =>
-                        // <DialogsContainer
-                        //     dialogPage={props.store.dialogsReducer}
-                        //     dispatch={props.dispatch}
-                        // />
-                        <SuperPuperDialogContainer
-                            dispatch={props.dispatch}
-                            onDialogChangeAC={onMessagesChangeTextAC}
-                            sendMessage={onMessagesSendMessageAC}
-                        />
+                       <DialogContainer
+                           dispatch={props.dispatch}
+                           onDialogChangeAC={onMessagesChangeTextAC}
+                           sendMessage={onMessagesSendMessageAC}
+                           />
                     }
                     />
 

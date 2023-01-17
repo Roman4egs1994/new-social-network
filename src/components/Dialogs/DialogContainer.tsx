@@ -37,4 +37,4 @@ const mapDispatchPostToProps = (dispatch: Dispatch): mapDispatchDialogToProps =>
     }
 }
 
-export const SuperPuperDialogContainer = connect(mapStateToProps,mapDispatchPostToProps)(Dialogs)
+export const DialogContainer = connect(mapStateToProps,mapDispatchPostToProps)(Dialogs)

@@ -38,4 +38,4 @@ const mapDispatchPostToProps = (dispatch: Dispatch): mapDispatchPostToPropsType 
 
 
 
-export const SuperMyPostContainer = connect(mapStatePostToProps,mapDispatchPostToProps)(MyPosts)
+export const MyPostContainer = connect(mapStatePostToProps,mapDispatchPostToProps)(MyPosts)
