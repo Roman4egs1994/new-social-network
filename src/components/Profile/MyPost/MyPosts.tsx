@@ -4,7 +4,7 @@ import {Post} from "./Posts/Post";
 import {Button} from "../../Button/Button";
 import {addPostAC, PostsType} from "../../../redux/profileReducer";
 import {DispatchType} from "../../../App";
-import {AppStoreType} from "../../../redux/reduxStore";
+import {AppStateType} from "../../../redux/reduxStore";
 
 
 

@@ -4,8 +4,9 @@ import {MyPosts} from "./MyPost/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {DispatchType} from "../../App";
 import {addPostAC, onPostChangeAC, PostsType} from "../../redux/profileReducer";
-import {MyPostsContainer} from "./MyPost/MyPostsContainer";
-import {AppStoreType, store} from "../../redux/reduxStore";
+
+import {AppStateType, store} from "../../redux/reduxStore";
+import {SuperMyPostContainer} from "./MyPost/SuperMyPostContainer";
 
 
 
@@ -28,11 +29,16 @@ debugger
         <>
             <div>
                 <ProfileInfo/>
-                <MyPostsContainer
+                {/*<MyPostsContainer*/}
+                {/*    posts={props.profilePageStore.posts}*/}
+                {/*    newPostText={props.profilePageStore.newPostText}*/}
+                {/*    dispatch={props.dispatch}*/}
+                {/*    // store = {props.store}*/}
+                {/*/>*/}
+                <SuperMyPostContainer
                     posts={props.profilePageStore.posts}
+                    onPostChangeAC={onPostChangeAC}
                     newPostText={props.profilePageStore.newPostText}
-                    dispatch={props.dispatch}
-                    // store = {props.store}
                 />
             </div>
         </>

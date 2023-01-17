@@ -4,14 +4,17 @@ import {sidebarReducer} from "./sidebarReducer";
 import {dialogsReducer} from "./dialogsReducer";
 
 
-export const reducers = combineReducers({
+export const rootReducer = combineReducers({
     profileReducer:profileReducer,
     dialogsReducer:dialogsReducer,
     // sidebarReduce:dialogsReducer
 }) //Берем все редюсеры и объединяем их (смешиваем)
 
 
-//Создаем Redux , отдаем ему все reducer
-export const store = createStore(reducers)
 
-export type AppStoreType = ReturnType<typeof store.getState>
+// export type AppStateType = ReturnType<typeof store.getState>
+export type AppStateType = ReturnType<typeof rootReducer>
+
+//Создаем Redux , отдаем ему все reducer
+export const store = createStore(rootReducer)
+

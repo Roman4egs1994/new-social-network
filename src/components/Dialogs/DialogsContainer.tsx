@@ -1,23 +1,14 @@
-import React, {ChangeEvent} from 'react';
-import style from './Dialogs.module.css'
-import {Messages} from "./Message/Messages";
-import {DialogItem} from "./DialogItem/DialogItem";
-// import {
-//     ActionTypes,
-//     DialogsItemPropsType,
-//     MessagesPropsType,
-//     onMessagesChangeTextAC, onMessagesSendMessageAC
-// } from "../../redux/store";
-// import {ActionTypes, DialogsItemPropsType, MessagesPropsType,} from "../../redux/store";
-import {Button} from "../Button/Button";
+import React from 'react';
 import {
-    DialogsItemPropsType,
+    DialogsItemPropsType, DialogsType,
     MessagesPropsType,
     onMessagesChangeTextAC,
     onMessagesSendMessageAC
 } from "../../redux/dialogsReducer";
 import {DispatchType} from "../../App";
 import {Dialogs} from "./Dialogs";
+import {connect} from "react-redux";
+import {AppStateType} from "../../redux/reduxStore";
 
 
 type DialogStateType = {
@@ -52,4 +43,5 @@ export const DialogsContainer = (props: DialogStateType) => {
         />
     );
 };
+
 

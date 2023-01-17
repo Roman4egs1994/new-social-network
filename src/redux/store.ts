@@ -1,6 +1,6 @@
 
 export const Closed = () => {
-    console.log('Store.ts утратил свое сущещствование')
+    console.log('Store.ts утратил свое сущещствование и перешел в reduxStore.ts')
 }
 
 // //POSTS

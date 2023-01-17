@@ -20,7 +20,8 @@ export type DialogsItemPropsType = {
 }
 
 
-export const initialState: DialogsType = {
+
+export const initialState = {
     dialogs: [
         {id: 1, name: 'Roman'},
         {id: 2, name: 'Mixa'},
@@ -28,7 +29,7 @@ export const initialState: DialogsType = {
         {id: 4, name: 'Volodya'},
         {id: 5, name: 'Prostofilya'},
         {id: 6, name: 'Kirill'}
-    ],
+    ] as Array<DialogsItemPropsType>,
     messages: [
         {id: 1, message: "Hi"},
         {id: 2, message: "good"},
@@ -36,13 +37,14 @@ export const initialState: DialogsType = {
         {id: 4, message: "Hello world"},
         {id: 5, message: "WTF"},
         {id: 6, message: "What?"}
-    ],
+    ] as Array<MessagesPropsType>,
     newMessageText: '',
 }
 
+export type InitialStateType = typeof initialState
 
 
-export const dialogsReducer = (state= initialState, action: ActionDialogType):DialogsType => {
+export const dialogsReducer = (state: InitialStateType = initialState, action: ActionDialogType):InitialStateType => {
     switch (action.type) {
         case "CHANGE-NEW-MESSAGE-TEXT" : {
             state.newMessageText = action.changeMessageText

@@ -3,25 +3,22 @@ import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
-import {Dialogs} from "./components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-// import { ActionTypes} from "./redux/store";
-import {AppStoreType} from "./redux/reduxStore";
-import {ActionTypes} from "redux-form";
-import {ActionDialogType} from "./redux/dialogsReducer";
+import {AppStateType} from "./redux/reduxStore";
+import {ActionDialogType, onMessagesChangeTextAC, onMessagesSendMessageAC} from "./redux/dialogsReducer";
 import {ActionProfileType} from "./redux/profileReducer";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {SuperDialogContainer} from "./components/Dialogs/SuperDialogItems";
+import {SuperPuperDialogContainer} from "./components/Dialogs/SuperPuperDialogContainer";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
 
 type AppTypeProps = {
-    store: AppStoreType
-    // store: StoreType
-    // dispatch: (action: ActionTypes) => void
+    store: AppStateType
     dispatch: (action: DispatchType) => void
 }
 
@@ -47,13 +44,14 @@ function App(props: AppTypeProps) {
                         />}
                     />
                     <Route path={"/dialogs"} render={() =>
-                        // <Dialogs
+                        // <DialogsContainer
                         //     dialogPage={props.store.dialogsReducer}
                         //     dispatch={props.dispatch}
                         // />
-                        <DialogsContainer
-                            dialogPage={props.store.dialogsReducer}
+                        <SuperPuperDialogContainer
                             dispatch={props.dispatch}
+                            onDialogChangeAC={onMessagesChangeTextAC}
+                            sendMessage={onMessagesSendMessageAC}
                         />
                     }
                     />
