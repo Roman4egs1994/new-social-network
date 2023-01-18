@@ -9,7 +9,7 @@ import {Provider} from "react-redux"; //Доступ к state без проки�
 
 
 
-let rerenderEntireTree = () => {
+// let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
             <Provider store={store}>
@@ -21,10 +21,10 @@ let rerenderEntireTree = () => {
         </BrowserRouter>,
         document.getElementById('root')
     );
-}
+// }
 
-rerenderEntireTree()
-store.subscribe(()=> {
-    // let state = store.getState()
-    rerenderEntireTree()
-});
+// rerenderEntireTree()
+// store.subscribe(()=> {
+//     // let state = store.getState()
+//     rerenderEntireTree()
+// });

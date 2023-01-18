@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {Dialogs} from "./Dialogs";
 import {AppStateType} from "../../redux/reduxStore";
 import {
-    InitialStateType,
+    InitialStateType, MessagesPropsType,
     onMessagesChangeTextAC,
     onMessagesSendMessageAC
 } from "../../redux/dialogsReducer";
@@ -11,25 +11,28 @@ import {Dispatch} from "redux";
 
 
 type mapStateDialogToPropsType = {
-    dialogPage: InitialStateType
+    // dialogPage: InitialStateType
+    messages: MessagesPropsType[]
+    newMessageText: string
 }
 
 type mapDispatchDialogToProps = {
-    changeTextAC: (text: string) => void
+    onDialogChangeAC: (changeMessageText: string) => void
     sendMessageAC: () => void
 }
 
 
 const mapStateToProps = (state: AppStateType): mapStateDialogToPropsType => {
     return {
-        dialogPage: state.dialogsReducer
+        messages: state.dialogsReducer.messages,
+        newMessageText: state.dialogsReducer.newMessageText
     }
 }
 
 const mapDispatchPostToProps = (dispatch: Dispatch): mapDispatchDialogToProps => {
     return {
-        changeTextAC: (text:string) => {
-            dispatch(onMessagesChangeTextAC(text))
+        onDialogChangeAC: (changeMessageText: string) => {
+            dispatch(onMessagesChangeTextAC(changeMessageText))
         },
         sendMessageAC: () => {
             dispatch(onMessagesSendMessageAC())

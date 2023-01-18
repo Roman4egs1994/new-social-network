@@ -46,10 +46,10 @@ function App(props: AppTypeProps) {
                     />
                     <Route path={"/dialogs"} render={() =>
                        <DialogContainer
-                           dispatch={props.dispatch}
-                           onDialogChangeAC={onMessagesChangeTextAC}
-                           sendMessage={onMessagesSendMessageAC}
-                           />
+                            // dialogPage={props.store.dialogsReducer}
+                           dialogs={props.store.dialogsReducer.dialogs}
+
+                       />
                     }
                     />
 

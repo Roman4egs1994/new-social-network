@@ -20,7 +20,6 @@ export type DialogsItemPropsType = {
 }
 
 
-
 export const initialState = {
     dialogs: [
         {id: 1, name: 'Roman'},
@@ -44,20 +43,24 @@ export const initialState = {
 export type InitialStateType = typeof initialState
 
 
-export const dialogsReducer = (state: InitialStateType = initialState, action: ActionDialogType):InitialStateType => {
+export const dialogsReducer = (state: InitialStateType = initialState, action: ActionDialogType): InitialStateType => {
     switch (action.type) {
         case "CHANGE-NEW-MESSAGE-TEXT" : {
-            state.newMessageText = action.changeMessageText
-            return state
+            const stateCopy1 = {...state, newMessageText: action.changeMessageText}
+            // stateCopy1.newMessageText = action.changeMessageText
+            return stateCopy1
         }
         case "SEND-MESSAGE-DIALOG": {
             const newMessages = {id: new Date().getTime(), message: state.newMessageText}
-            state.messages.push(newMessages)
-            state.newMessageText = ''
-           return  state
+            const stateCopy = {
+                ...state,
+                messages: [...state.messages, newMessages]
+            }
+            stateCopy.newMessageText = ''
+            return stateCopy
         }
         default: {
-            return  state
+            return state
         }
 
     }
@@ -68,7 +71,7 @@ export type ActionDialogType = onMessagesSendMessageACType | onMessagesChangeTex
 
 
 export type onMessagesChangeTextACType = ReturnType<typeof onMessagesChangeTextAC>
-export const onMessagesChangeTextAC = (changeMessageText: string)=> {
+export const onMessagesChangeTextAC = (changeMessageText: string) => {
     return {
         type: "CHANGE-NEW-MESSAGE-TEXT",
         changeMessageText: changeMessageText

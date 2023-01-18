@@ -8,24 +8,20 @@ import {DispatchType} from "../../App";
 
 
 type DialogStateType = {
-    dialogPage: DialogsPropsType
-    dispatch: (Action: DispatchType) => void
-    onDialogChangeAC:(changeMessageText: string) => void
-    sendMessage:() => void
-}
-
-type DialogsPropsType = {
     dialogs: DialogsItemPropsType[]
     messages: MessagesPropsType[]
     newMessageText: string
+
+    onDialogChangeAC:(changeMessageText: string) => void
+    sendMessageAC:() => void
 }
 
 
 export const Dialogs = (props: DialogStateType) => {
 
 
-    const dialogsElements = props.dialogPage.dialogs.map(el => <DialogItem key={el.id} id={el.id} name={el.name}/>) //Пользователи
-    const messagesElements = props.dialogPage.messages.map(el => <Messages key={el.id} messages={el.message}/>) //Сообщения
+    const dialogsElements = props.dialogs.map(el => <DialogItem key={el.id} id={el.id} name={el.name}/>) //Пользователи
+    const messagesElements = props.messages.map(el => <Messages key={el.id} messages={el.message}/>) //Сообщения
 
     const newMessageRefHandler = React.createRef<HTMLTextAreaElement>()
 
@@ -33,12 +29,10 @@ export const Dialogs = (props: DialogStateType) => {
     const onchangeMessageTextHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const text = event.currentTarget.value
        props.onDialogChangeAC(text)
-        // props.dispatch(onMessagesChangeTextAC(text))
     }
 
     const addNewMessagesHandler = () => {
-
-        props.sendMessage()
+        props.sendMessageAC()
     }
 
     return (
@@ -54,7 +48,7 @@ export const Dialogs = (props: DialogStateType) => {
                             placeholder={'Enter new message'}
                             onChange={onchangeMessageTextHandler}
                             ref={newMessageRefHandler}
-                            value={props.dialogPage.newMessageText}
+                            value={props.newMessageText}
                         />
                     </div>
                     <div>

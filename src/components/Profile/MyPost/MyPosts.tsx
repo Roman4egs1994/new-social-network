@@ -12,8 +12,6 @@ import {AppStateType} from "../../../redux/reduxStore";
 export type MyPostsPropsType = {
     posts: PostsType[]
     newPostText: string
-    // dispatch: (action: DispatchType) => void
-
 
     addPostAC:()=> void
     onPostChangeAC: (newText: string)=> void
@@ -32,16 +30,12 @@ export const MyPosts = (props: MyPostsPropsType) => {
 
 
     const onAddPost = () => {
-        // props.dispatch(addPostAC())
         props.addPostAC();
     }
 
     const onPostChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const text = event.currentTarget.value
-
         props.onPostChangeAC(text)
-        // props.dispatch(onPostChangeAC(text))
-
     }
 
 
