@@ -15,17 +15,16 @@ type UsersPropsTypeType = {
 
 //КЛАССОВАЯ КОМПОНЕНТА
 class UsersC extends React.Component<UsersPropsTypeType, UsersPropsTypeType> {
+
+
+    componentDidMount() {
+        axios.get("https://social-network.samuraijs.com/api/1.0/users")
+            .then(response => {
+                this.props.setUsers(response.data.items);
+            });
+    }
+
     render() {
-
-        if (this.props.users.length === 0) {
-            axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
-                this.props.setUsers(response.data.items)
-            })
-        }
-
-        console.log('CLASS COMPONENT',this.props.users);
-
-
 
         return   <div>
             {
