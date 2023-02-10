@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 
 
 export type InitialStateType = {
@@ -34,9 +33,9 @@ export type PhotosType = {
 
 const initialState: InitialStateType = {
     users: [],
-    pageSize: 5, //кол-во пользователей на стр
-    totalUsersCount: 0, //Максимальное кол-во пользователей
-    currentPage: 1 //Актуальная страница
+    pageSize: 5, //кол-во пользователей на одной странице
+    totalUsersCount: 0, //Максимальное кол-во пользователей на сервере
+    currentPage: 1 //Актуальная страница , которая открыта
 }
 
 
@@ -61,9 +60,9 @@ export const userReducer = (state = initialState, action: UserTypeAC): InitialSt
             }
         }
         case "SET-USERS": {
-            return  {...state, users: action.payload.users} //Перезатераем
+            return  {...state, users: action.payload.users} //Перезатераем пользователей, что бы сделать постраничный вывод а не всех пользователей на одной странице
         }
-        case "SET-CURRENT-PAGE" : {
+        case "SET-CURRENT-PAGE" : { //Получаем актуальную страницу
             return  {...state, currentPage: action.newCurrentPage}
         }
         case "SET-TOTAL-COUNT": {

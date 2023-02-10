@@ -1,46 +1,56 @@
 import React from 'react';
-import {UsersType} from "../../redux/userReducer";
+import styles from "./Users.module.css";
+import usersPhotoNull from "../../assets/images/usersNull.png";
 import {Button} from "../Button/Button";
-import styles from "./Users.module.css"
-import axios from "axios";
-import usersPhotoNull from '../../assets/images/usersNull.png'
+import {UsersType} from "../../redux/userReducer";
 
 
-type UsersPropsTypeType = {
+type UsersPresentPropsType = {
     users: UsersType[]
     follow: (userId: string) => void
     unFollow: (userId: string) => void
-    setUsers: (users: UsersType[]) => void
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    onClickCurrentPageHandler: (pageNumber: number) => void
 }
 
 
-// export const instance = axios.create({
-//     withCredentials: true,
-//     baseURL: 'https://social-network.samuraijs.com/api/1.0/users',
-//     headers:     {
-//         "API-KEY": "99d8236f-f0ae-4f8d-ab67-228046f5045c"
-//     }
-// });
+export const Users = (props: UsersPresentPropsType) => {
 
-export const Users = (props: UsersPropsTypeType) => {
+    //Подсчет количества страниц ( кол-во страниц = все количество пользователей / количество на 1 странице
 
+    //Cчитаем количество страниц = берем Количество пользователей / количество на одной странице
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
 
-    //Побочный эффект
-    if (props.users.length === 0) {
-
-        axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
-            props.setUsers(response.data.items)
-        })
-
-
+    let pages = []; //Создаем пустой массив страниц
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i) //Берем количество страниц и пушим в массив
     }
 
-    console.log(props.users);
 
     return (
-        <div>
-            {
-                props.users.map(el => <div key={el.id}>
+        <>
+            <div>
+                <div>
+                    {/*отображаем наше количество страниц*/}
+                    {pages.map((p, index) => {
+                        return (
+                            <span
+                                className={props.currentPage === p ? styles.selectedPage : ""}
+                                onClick={(e) => {
+                                    props.onClickCurrentPageHandler(p)
+                                }}//Вешаем событие по нажатие,что бы открывать
+                                // актуальную страничку
+                                key={index}
+                            >
+                            {p}
+                        </span>
+                        )
+                    })}
+                </div>
+                {
+                    props.users.map(el => <div key={el.id}>
         <span>
             <div>
                 <img src={el.photos.small != null ? el.photos.small : usersPhotoNull} alt="photoLog"
@@ -53,7 +63,7 @@ export const Users = (props: UsersPropsTypeType) => {
                 }
             </div>
         </span>
-                    <span>
+                        <span>
             <span>
                 <div>{el.name}</div>
                 <div>{el.status}</div>
@@ -63,9 +73,10 @@ export const Users = (props: UsersPropsTypeType) => {
                 <div>{"el.location.city"}</div>
             </span>
         </span>
-                </div>)
-            }
-        </div>
+                    </div>)
+                }
+            </div>
+        </>
     );
 };
 
