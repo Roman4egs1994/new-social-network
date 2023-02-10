@@ -3,7 +3,13 @@ import {v1} from "uuid";
 
 export type InitialStateType = {
     users: UsersType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
+
+
+
 
 export type UsersType = {
     id: string
@@ -12,6 +18,7 @@ export type UsersType = {
     name: string
     status: string
     location: LocationType
+
 }
 
 export type LocationType = {
@@ -26,9 +33,10 @@ export type PhotosType = {
 
 
 const initialState: InitialStateType = {
-    users: [
-
-    ]
+    users: [],
+    pageSize: 5, //кол-во пользователей на стр
+    totalUsersCount: 0, //Максимальное кол-во пользователей
+    currentPage: 1 //Актуальная страница
 }
 
 
@@ -53,7 +61,13 @@ export const userReducer = (state = initialState, action: UserTypeAC): InitialSt
             }
         }
         case "SET-USERS": {
-            return  {...state, users: [...state.users, ...action.payload.users]}
+            return  {...state, users: action.payload.users} //Перезатераем
+        }
+        case "SET-CURRENT-PAGE" : {
+            return  {...state, currentPage: action.newCurrentPage}
+        }
+        case "SET-TOTAL-COUNT": {
+            return {...state, totalUsersCount: action.totalCount}
         }
         default: {
             return state
@@ -62,7 +76,7 @@ export const userReducer = (state = initialState, action: UserTypeAC): InitialSt
 }
 
 
-type UserTypeAC = FollowACType | UnFollowACType | setUsersACType
+type UserTypeAC = FollowACType | UnFollowACType | setUsersACType | setCurrentPageACType | setUsersTotalCounterACType
 
 
 type FollowACType = ReturnType<typeof followAC>
@@ -96,4 +110,21 @@ export const setUsersAC = (users: UsersType[]) => {
             users
         }
     } as  const
+}
+
+type setCurrentPageACType = ReturnType<typeof  setCurrentPageAC>
+export const  setCurrentPageAC = (newCurrentPage: number) => {
+    return {
+        type : "SET-CURRENT-PAGE",
+        newCurrentPage: newCurrentPage
+    } as const
+}
+
+
+type setUsersTotalCounterACType = ReturnType<typeof setUsersTotalCounterAC >
+export const setUsersTotalCounterAC = (totalCount: number) => {
+    return {
+        type : "SET-TOTAL-COUNT",
+        totalCount : totalCount
+    } as const
 }
