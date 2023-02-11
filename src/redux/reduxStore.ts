@@ -20,3 +20,4 @@ export type AppStateType = ReturnType<typeof rootReducer>
 //Создаем Redux , отдаем ему все reducer
 export const store = createStore(rootReducer)
 
+

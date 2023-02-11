@@ -9,10 +9,10 @@ import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {AppStateType} from "./redux/reduxStore";
 import {ActionDialogType} from "./redux/dialogsReducer";
-import {ActionProfileType} from "./redux/profileReducer";
+import {ActionProfileType, setUserProfileAC} from "./redux/profileReducer";
 import {DialogContainer} from "./components/Dialogs/DialogContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
-
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
@@ -35,12 +35,16 @@ function App(props: AppTypeProps) {
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
                     <Route path={"/profile"} render={() =>
-                        <Profile profilePageStore={props.store.profileReducer} dispatch={props.dispatch}/>}
+                        // <Profile profilePageStore={props.store.profileReducer} dispatch={props.dispatch}/>}
+                        <ProfileContainer
+                            profilePageStore={props.store.profileReducer}
+                            dispatch={props.dispatch}
+                        />}
                     />
                     <Route path={"/dialogs"} render={() =>
-                       <DialogContainer dialogs={props.store.dialogsReducer.dialogs}/>}
+                        <DialogContainer dialogs={props.store.dialogsReducer.dialogs}/>}
                     />
-                    <Route path={"/users"} render={()=> <UsersContainer/>}
+                    <Route path={"/users"} render={() => <UsersContainer/>}
                     />
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/music'} render={() => <Music/>}/>

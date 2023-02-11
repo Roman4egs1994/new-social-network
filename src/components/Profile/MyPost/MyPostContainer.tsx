@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {Profile} from "../Profile";
 import {AppStateType} from "../../../redux/reduxStore";
-import {addPostAC, onPostChangeAC, PostsType, ProfilePageType} from "../../../redux/profileReducer";
+import {addPostAC, onPostChangeAC, PostsType, InitialProfileStateType} from "../../../redux/profileReducer";
 import {Dispatch} from "redux";
 import {MyPosts} from "./MyPosts";
 

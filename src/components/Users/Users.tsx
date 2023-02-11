@@ -3,6 +3,7 @@ import styles from "./Users.module.css";
 import usersPhotoNull from "../../assets/images/usersNull.png";
 import {Button} from "../Button/Button";
 import {UsersType} from "../../redux/userReducer";
+import {NavLink} from "react-router-dom";
 
 
 type UsersPresentPropsType = {
@@ -53,8 +54,11 @@ export const Users = (props: UsersPresentPropsType) => {
                     props.users.map(el => <div key={el.id}>
         <span>
             <div>
+                {/*переход к пользователю*/}
+                <NavLink to={"/profile/" + el.id}>
                 <img src={el.photos.small != null ? el.photos.small : usersPhotoNull} alt="photoLog"
                      className={styles.userPhoto}/>
+                </NavLink>
             </div>
             <div>
                 {el.followed

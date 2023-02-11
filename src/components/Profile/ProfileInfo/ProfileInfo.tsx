@@ -1,14 +1,25 @@
 import React from 'react';
 import styles from './ProfileInfo.module.css'
+import {InfoProfileType} from "../../../redux/profileReducer";
+import {Preloader} from "../../common/Preloader/Preloader";
+import preloader from "../../../assets/loading/Spinner.svg"
+type ProfileInfoPropsType = {
+    profile: InfoProfileType | null
+}
 
-export const ProfileInfo = () => {
+
+export const ProfileInfo = (props: ProfileInfoPropsType) => {
+    if (!props.profile) {
+        return <Preloader src={preloader}/>
+    }
+    console.log(props)
     return (
         <div>
             <div>
-                <img src="https://www.w3schools.com/css/img_5terre_wide.jpg" alt=""/>
+                <img src={''} alt=""/>
             </div>
             <div className={styles.descriptionBlock}>
-                ava + description
+                <img src={props.profile.photos.large}/>
             </div>
         </div>
     );
