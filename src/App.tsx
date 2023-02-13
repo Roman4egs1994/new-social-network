@@ -34,13 +34,9 @@ function App(props: AppTypeProps) {
                 <Header/>
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={"/profile"} render={() =>
-                        // <Profile profilePageStore={props.store.profileReducer} dispatch={props.dispatch}/>}
-                        <ProfileContainer
-                            profilePageStore={props.store.profileReducer}
-                            dispatch={props.dispatch}
-                        />}
-                    />
+                    <Route path={"/profile/:userId"} render={() =>
+                        <ProfileContainer/>
+                    }/>
                     <Route path={"/dialogs"} render={() =>
                         <DialogContainer dialogs={props.store.dialogsReducer.dialogs}/>}
                     />
