@@ -4,6 +4,7 @@ import usersPhotoNull from "../../assets/images/usersNull.png";
 import {Button} from "../Button/Button";
 import {UsersType} from "../../redux/userReducer";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 
 type UsersPresentPropsType = {
@@ -36,6 +37,8 @@ export const Users = (props: UsersPresentPropsType) => {
                 <div>
                     {/*отображаем наше количество страниц*/}
                     {pages.map((p, index) => {
+
+
                         return (
                             <span
                                 className={props.currentPage === p ? styles.selectedPage : ""}
@@ -51,7 +54,45 @@ export const Users = (props: UsersPresentPropsType) => {
                     })}
                 </div>
                 {
-                    props.users.map(el => <div key={el.id}>
+                    props.users.map(el => {
+
+                        //подписка
+                        const onclickHandlerFollow = () => {
+
+                            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,{},{
+                                withCredentials:true,
+                                headers: {
+                                    'API-KEY': '60a736fa-51da-4c8e-9364-ebbbd514420d'
+                                }//авторизован: true
+                            })
+                                .then(response => {
+                                    if(response.data.resultCode === 0) {
+                                        props.follow(el.id)
+                                    }
+                                });
+
+                        }
+
+                        //отписка
+                        const onclickHandlerUnFollow = () => {
+
+                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,{
+                                withCredentials:true ,//авторизован: true
+                                headers: {
+                                    'API-KEY': '60a736fa-51da-4c8e-9364-ebbbd514420d'
+                                }
+                            })
+
+                                .then(response => {
+                                    if(response.data.resultCode === 0) {
+                                        props.unFollow(el.id)
+                                    }
+                                });
+                        }
+
+
+                        return (
+                            <div key={el.id}>
         <span>
             <div>
                 {/*переход к пользователю*/}
@@ -62,12 +103,12 @@ export const Users = (props: UsersPresentPropsType) => {
             </div>
             <div>
                 {el.followed
-                    ? <Button name={'Unfollow'} callBack={() => props.unFollow(el.id)}/>
-                    : <Button name={'Follow'} callBack={() => props.follow(el.id)}/>
+                    ? <Button name={'Unfollow'} callBack={onclickHandlerUnFollow}/>
+                    : <Button name={'Follow'} callBack={onclickHandlerFollow}/>
                 }
             </div>
         </span>
-                        <span>
+                                <span>
             <span>
                 <div>{el.name}</div>
                 <div>{el.status}</div>
@@ -77,7 +118,9 @@ export const Users = (props: UsersPresentPropsType) => {
                 <div>{"el.location.city"}</div>
             </span>
         </span>
-                    </div>)
+                            </div>
+                        )
+                    })
                 }
             </div>
         </>

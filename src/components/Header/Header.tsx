@@ -11,7 +11,7 @@ type HeaderPropsType = {
 
 
 export const Header = (props: HeaderPropsType) => {
-    console.log(props)
+    // console.log(props)
     return (
         <>
             <header className={style.header}>
