@@ -71,7 +71,7 @@ export const profileReducer = (state = initialState, action: ActionProfileType):
             };
         }
         case "SET-PROFILE": {
-            console.log(action)
+            // console.log(action)
             return {
                 ...state, profile: action.profile
             }

@@ -12,7 +12,7 @@ export type ProfileType = {
 }
 
 export const Profile = (props: ProfileType) => {
-    console.log(props)
+    // console.log(props)
     return (
         <>
             <div>

@@ -38,14 +38,7 @@ type MapStateToPropsType = {
 }
 
 
-// type MapDispatchPostToPropsType = {
-//     follow: (userId: string) => void
-//     unFollow: (userId: string) => void
-//     setUsers: (users: UsersType[]) => void
-//     setCurrentPage: (newCurrentPage: number) => void
-//     setTotalUsersCount: (total: number) => void
-//     toggleIsFetching: (onOffFetching: boolean) => void
-// }
+
 
 class UsersAPIComponent extends React.Component<UsersPropsTypeType> {
     componentDidMount() { //Идеальное место для сайд эффектов                   //Актуальная страница             //количество на странице

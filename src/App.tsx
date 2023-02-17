@@ -13,6 +13,7 @@ import {ActionProfileType, setUserProfileAC} from "./redux/profileReducer";
 import {DialogContainer} from "./components/Dialogs/DialogContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
+import {HeaderContainer} from "./components/Header/HeaderContainer";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
@@ -31,7 +32,7 @@ function App(props: AppTypeProps) {
     return (
         <div className="App">
             <div className={'app-wrapper'}>
-                <Header/>
+                <HeaderContainer />
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
                     <Route path={"/profile/:userId"} render={() =>
