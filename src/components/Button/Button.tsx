@@ -15,7 +15,7 @@ export const Button:React.FC<ButtonPropsType> = (props) => {
     }
 
     return (
-        <button onClick={onClickBtnCallBackHandler} className={className}>{name}</button>
+        <button disabled={props.disabled} onClick={onClickBtnCallBackHandler} className={className}>{name}</button>
     );
 };
 

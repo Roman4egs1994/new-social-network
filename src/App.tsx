@@ -14,6 +14,7 @@ import {DialogContainer} from "./components/Dialogs/DialogContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
+import FriendsLessonAjax from "./components/Users/FriendsLessonAjax";
 
 
 // exact - компонента отрендерится когда попал точь в точь по пути ссылок
@@ -35,14 +36,10 @@ function App(props: AppTypeProps) {
                 <HeaderContainer />
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={"/profile/:userId"} render={() =>
-                        <ProfileContainer/>
-                    }/>
-                    <Route path={"/dialogs"} render={() =>
-                        <DialogContainer dialogs={props.store.dialogsReducer.dialogs}/>}
-                    />
-                    <Route path={"/users"} render={() => <UsersContainer/>}
-                    />
+                    <Route path={"/friendsLessonAjax"} render={() => <FriendsLessonAjax />}/>
+                    <Route path={"/profile/:userId"} render={() => <ProfileContainer/>}/>
+                    <Route path={"/dialogs"} render={() => <DialogContainer dialogs={props.store.dialogsReducer.dialogs}/>}/>
+                    <Route path={"/users"} render={() => <UsersContainer/>}/>
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/music'} render={() => <Music/>}/>
                     <Route path={'/settings'} render={() => <Settings/>}/>

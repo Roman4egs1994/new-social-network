@@ -1,11 +1,11 @@
-
-
 export type InitialStateType = {
     users: UsersType[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    // followingInProgress: boolean
+    followingInProgress: string[]
 }
 
 
@@ -18,7 +18,6 @@ export type UsersType = {
     name: string
     status: string
     location: LocationType
-
 }
 
 export type LocationType = {
@@ -37,7 +36,10 @@ const initialState: InitialStateType = {
     pageSize: 5, //кол-во пользователей на одной странице
     totalUsersCount: 0, //Максимальное кол-во пользователей на сервере
     currentPage: 1, //Актуальная страница , которая открыта
-    isFetching: false //Загрузка (Loading)
+    isFetching: false,//Загрузка (Loading),
+    // followingInProgress: false
+    followingInProgress: [] // загрузка id в массив , на которого подписываемся,
+    //что бы избежать повторные нажатия на кнопку (Подписка и Отписка)
 }
 
 
@@ -62,16 +64,29 @@ export const userReducer = (state = initialState, action: UserTypeAC): InitialSt
             }
         }
         case "SET-USERS": {
-            return  {...state, users: action.payload.users} //Перезатераем пользователей, что бы сделать постраничный вывод а не всех пользователей на одной странице
+            return {...state, users: action.payload.users} //Перезатераем пользователей, что бы сделать постраничный вывод а не всех пользователей на одной странице
         }
         case "SET-CURRENT-PAGE" : { //Получаем актуальную страницу
-            return  {...state, currentPage: action.newCurrentPage}
+            return {...state, currentPage: action.newCurrentPage}
         }
         case "SET-TOTAL-COUNT": {
             return {...state, totalUsersCount: action.totalCount}
         }
         case "TOGGLE-IS-FETCHING": {
-            return {...state, isFetching : action.onOffFetching}
+            return {...state, isFetching: action.onOffFetching}
+        }
+        // case "FOLLOWING-PROGRESS": {
+        //     return {
+        //         ...state,followingInProgress: action.isFetching
+        //     }
+        // }
+        case "FOLLOWING-PROGRESS": {
+            return {
+                ...state,
+                followingInProgress: action.isFetching //Если  isFetching
+                    ? [...state.followingInProgress, action.userId] //true то добавляем туда айди
+                    : state.followingInProgress.filter(id => id != action.userId) //false то удаляем айди
+            }
         }
         default: {
             return state
@@ -86,6 +101,7 @@ type UserTypeAC = FollowACType
     | setCurrentPageACType
     | setUsersTotalCounterACType
     | ToggleIsFetchingACType
+    | FollowingProgressACType
 
 
 type FollowACType = ReturnType<typeof followAC>
@@ -110,7 +126,6 @@ export const unFollowAC = (userID: string) => {
 }
 
 
-
 type setUsersACType = ReturnType<typeof setUsersAC>
 export const setUsersAC = (users: UsersType[]) => {
     return {
@@ -118,23 +133,23 @@ export const setUsersAC = (users: UsersType[]) => {
         payload: {
             users
         }
-    } as  const
+    } as const
 }
 
-type setCurrentPageACType = ReturnType<typeof  setCurrentPageAC>
-export const  setCurrentPageAC = (newCurrentPage: number) => {
+type setCurrentPageACType = ReturnType<typeof setCurrentPageAC>
+export const setCurrentPageAC = (newCurrentPage: number) => {
     return {
-        type : "SET-CURRENT-PAGE",
+        type: "SET-CURRENT-PAGE",
         newCurrentPage: newCurrentPage
     } as const
 }
 
 
-type setUsersTotalCounterACType = ReturnType<typeof setUsersTotalCounterAC >
+type setUsersTotalCounterACType = ReturnType<typeof setUsersTotalCounterAC>
 export const setUsersTotalCounterAC = (totalCount: number) => {
     return {
-        type : "SET-TOTAL-COUNT",
-        totalCount : totalCount
+        type: "SET-TOTAL-COUNT",
+        totalCount: totalCount
     } as const
 }
 
@@ -144,5 +159,15 @@ export const toggleIsFetchingAC = (onOffFetching: boolean) => {
     return {
         type: "TOGGLE-IS-FETCHING",
         onOffFetching
+    } as const
+}
+
+
+type FollowingProgressACType = ReturnType<typeof followingProgressAC>
+export const followingProgressAC = (isFetching: boolean, userId: string) => {
+    return {
+        type: "FOLLOWING-PROGRESS",
+        userId,
+        isFetching
     } as const
 }

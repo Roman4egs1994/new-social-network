@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/reduxStore";
 import {
-    followAC,
+    followAC, followingProgressAC,
     setCurrentPageAC,
     setUsersAC,
     setUsersTotalCounterAC, toggleIsFetchingAC,
@@ -13,6 +13,8 @@ import axios from "axios";
 import {Users} from "./Users";
 import preloader from "../../assets/loading/Spinner.svg"
 import {Preloader} from "../common/Preloader/Preloader";
+import {usersAPI} from "../../api/api";
+
 
 type UsersPropsTypeType = {
     users: UsersType[]
@@ -26,6 +28,9 @@ type UsersPropsTypeType = {
     currentPage: number
     isFetching: boolean
     toggleIsFetching: (onOffFetching: boolean) => void
+    followingProgressAC: (isFetching: boolean, id:string) => void
+    // followingProgress: boolean
+    followingProgress: string[]
 }
 
 
@@ -35,33 +40,35 @@ type MapStateToPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    // followingProgress: boolean
+    followingProgress: string[]
 }
 
 
 
 
 class UsersAPIComponent extends React.Component<UsersPropsTypeType> {
-    componentDidMount() { //Идеальное место для сайд эффектов                   //Актуальная страница             //количество на странице
+    componentDidMount() { //Идеальное место для сайд эффектов
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,{
-            withCredentials: true
-        })
-            .then(response => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount = 300) //Актуализируем количество пользователей с API
-            });
+
+        //Получить пользователей
+        usersAPI.getUsers(this.props.currentPage,this.props.pageSize)
+            .then(data => {
+            this.props.toggleIsFetching(false);
+            this.props.setUsers(data.items);
+            this.props.setTotalUsersCount(data.totalCount = 300) //Актуализируем количество пользователей с api
+        });
     }
 
     onClickCurrentPageHandler = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber);
         this.props.toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,{
-            withCredentials: true
-        })
-            .then(response => {
+
+        //Переключалка страниц
+        usersAPI.getUsers(pageNumber,this.props.pageSize)
+            .then(data => {
                 this.props.toggleIsFetching(false);
-                this.props.setUsers(response.data.items);
+                this.props.setUsers(data.items);
             });
     }
     render() {
@@ -80,6 +87,8 @@ class UsersAPIComponent extends React.Component<UsersPropsTypeType> {
                     users={this.props.users}
                     follow={this.props.follow}
                     unFollow={this.props.unFollow}
+                    followingProgressAC={this.props.followingProgressAC}
+                    followingProgress={this.props.followingProgress}
                 />
 
 
@@ -97,7 +106,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         pageSize: state.userReducer.pageSize,
         totalUsersCount: state.userReducer.totalUsersCount,
         currentPage: state.userReducer.currentPage,
-        isFetching: state.userReducer.isFetching
+        isFetching: state.userReducer.isFetching,
+        followingProgress: state.userReducer.followingInProgress
     }
 }
 
@@ -108,5 +118,7 @@ export const UsersContainer = connect(mapStateToProps, {
     setUsers: setUsersAC,
     setCurrentPage: setCurrentPageAC,
     setTotalUsersCount:setUsersTotalCounterAC,
-    toggleIsFetching: toggleIsFetchingAC //Диспатчится не AC а вызов AC
+    toggleIsFetching: toggleIsFetchingAC, //Диспатчится не AC а вызов AC
+    followingProgressAC: followingProgressAC
+
 })(UsersAPIComponent)

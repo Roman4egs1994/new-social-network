@@ -4,7 +4,7 @@ import usersPhotoNull from "../../assets/images/usersNull.png";
 import {Button} from "../Button/Button";
 import {UsersType} from "../../redux/userReducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
+import {usersAPI} from "../../api/api";
 
 
 type UsersPresentPropsType = {
@@ -15,6 +15,9 @@ type UsersPresentPropsType = {
     totalUsersCount: number
     currentPage: number
     onClickCurrentPageHandler: (pageNumber: number) => void
+    followingProgressAC: (isFetching: boolean, id: string) => void
+    // followingProgress: boolean
+    followingProgress: string[]
 }
 
 
@@ -37,15 +40,12 @@ export const Users = (props: UsersPresentPropsType) => {
                 <div>
                     {/*отображаем наше количество страниц*/}
                     {pages.map((p, index) => {
-
-
                         return (
                             <span
                                 className={props.currentPage === p ? styles.selectedPage : ""}
                                 onClick={(e) => {
                                     props.onClickCurrentPageHandler(p)
-                                }}//Вешаем событие по нажатие,что бы открывать
-                                // актуальную страничку
+                                }}
                                 key={index}
                             >
                             {p}
@@ -55,40 +55,67 @@ export const Users = (props: UsersPresentPropsType) => {
                 </div>
                 {
                     props.users.map(el => {
-
                         //подписка
                         const onclickHandlerFollow = () => {
 
-                            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,{},{
-                                withCredentials:true,
-                                headers: {
-                                    'API-KEY': '60a736fa-51da-4c8e-9364-ebbbd514420d'
-                                }//авторизован: true
-                            })
-                                .then(response => {
-                                    if(response.data.resultCode === 0) {
+                            // axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,{},{
+                            //     withCredentials:true,
+                            //     headers: {
+                            //         'API-KEY': '60a736fa-51da-4c8e-9364-ebbbd514420d'
+                            //     }//авторизован: true
+                            // })
+                            //     .then(response => {
+                            //         if(response.data.resultCode === 0) {
+                            //             props.follow(el.id)
+                            //         }
+                            //     });
+
+                            props.followingProgressAC(true,el.id)
+                            usersAPI.getFollow(el.id)
+                                .then(data => {
+                                    if (data.resultCode === 0) {
                                         props.follow(el.id)
                                     }
-                                });
-
+                                    props.followingProgressAC(false,el.id)
+                                })
                         }
 
                         //отписка
                         const onclickHandlerUnFollow = () => {
+                            // axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,{
+                            //     withCredentials:true ,//авторизован: true
+                            //     headers: {
+                            //         'API-KEY': '60a736fa-51da-4c8e-9364-ebbbd514420d'
+                            //     }
+                            // })
+                            //
+                            //     .then(response => {
+                            //         if(response.data.resultCode === 0) {
+                            //             props.unFollow(el.id)
+                            //         }
+                            //     });
 
-                            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${el.id}`,{
-                                withCredentials:true ,//авторизован: true
-                                headers: {
-                                    'API-KEY': '60a736fa-51da-4c8e-9364-ebbbd514420d'
+                            props.followingProgressAC(true,el.id)
+                            usersAPI.getUnfollow(el.id).then(data => {
+                                if (data.resultCode === 0) {
+                                    props.unFollow(el.id)
                                 }
+                                props.followingProgressAC(false, el.id)
                             })
 
-                                .then(response => {
-                                    if(response.data.resultCode === 0) {
-                                        props.unFollow(el.id)
-                                    }
-                                });
                         }
+
+                        // const disabledButtonUnfollow = () => {
+                        //     if (props.followingProgress === true) {
+                        //         return true
+                        //     }
+                        // }
+                        //
+                        // const disabledButtonFollow = () => {
+                        //     if (props.followingProgress === true) {
+                        //         return true
+                        //     }
+                        // }
 
 
                         return (
@@ -103,8 +130,8 @@ export const Users = (props: UsersPresentPropsType) => {
             </div>
             <div>
                 {el.followed
-                    ? <Button name={'Unfollow'} callBack={onclickHandlerUnFollow}/>
-                    : <Button name={'Follow'} callBack={onclickHandlerFollow}/>
+                    ? <Button  disabled={props.followingProgress.some(id => id === el.id)} name={'Unfollow'} callBack={onclickHandlerUnFollow}/>
+                    : <Button  disabled={props.followingProgress.some(id => id === el.id)} name={'Follow'} callBack={onclickHandlerFollow}/>
                 }
             </div>
         </span>
